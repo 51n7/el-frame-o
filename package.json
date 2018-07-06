@@ -1,0 +1,19 @@
+{
+  "name": "el-frame-o",
+  "version": "1.0.0",
+  "description": "An frame for web applications",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": "",
+  "keywords": [
+    "Electron",
+    "Frame"
+  ],
+  "author": "Jon Best",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^2.0.4"
+  }
+}

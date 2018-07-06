@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Hello World!</title>
+
+    <link rel="stylesheet" type="text/css" href="./assets/style.css">
+  </head>
+  <body>
+    <div class="titlebar"></div>
+    
+    <form>
+      <input type="text" value="https://app.getflow.com/">
+      <input type="submit" value="submit">
+    </form>
+    
+    <script>
+      if (window.isElectron) {
+        
+        var form = document.querySelector('form')
+
+        form.addEventListener("submit", function(e){
+          e.preventDefault();
+
+          var val = document.querySelector('[type="text"]').value;
+          window.ipcRenderer.send('asynchronous-message', val)
+        });
+      }
+    </script>
+  </body>
+</html>
