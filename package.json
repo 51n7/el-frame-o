@@ -14,6 +14,7 @@
   "author": "Jon Best",
   "license": "ISC",
   "devDependencies": {
-    "electron": "^2.0.4"
+    "electron": "^2.0.4",
+    "electron-store": "^2.0.0"
   }
 }

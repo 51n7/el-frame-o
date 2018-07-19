@@ -1,6 +1,15 @@
 const { app, globalShortcut, BrowserWindow, ipcMain } = require('electron')
 const fs = require('fs')
 const path = require('path')
+const Store = require('electron-store');
+const data = new Store();
+
+// data.set('unicorn', 'say what??');
+// console.log(data.get('unicorn'));
+
+// data.set('pages.3', { "title": "Discord", "url": "https://discordapp.com/", "css": "body { color: red; } h1 { background: red; }" });
+console.log( data.get('pages') );
+
 
 let mainWindow
 
@@ -68,4 +77,3 @@ ipcMain.on('asynchronous-message', (event, arg) => {
     })
   })
 })
-

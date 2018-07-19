@@ -17,13 +17,13 @@
     <script>
       if (window.isElectron) {
         
-        var form = document.querySelector('form')
+        var form = document.querySelector('form');
 
         form.addEventListener("submit", function(e){
           e.preventDefault();
 
           var val = document.querySelector('[type="text"]').value;
-          window.ipcRenderer.send('asynchronous-message', val)
+          window.ipcRenderer.send('asynchronous-message', val);
         });
       }
     </script>
