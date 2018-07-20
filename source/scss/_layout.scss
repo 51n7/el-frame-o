@@ -1,4 +1,8 @@
 
+body {
+  background-color: #ddd;
+}
+
 .titlebar {
   -webkit-app-region: drag;
   width: 100%;
@@ -10,22 +14,56 @@
 .item {
   display: block;
 
-  & [type="radio"] {
-    display: none;
+  &:nth-child(odd) {
+    background-color: #ccc;
   }
+
+  // [type="radio"] { display: none; }
+
+  [type="radio"] {
+    display: none;
+
+    &:checked ~ .title .checkbox:before {
+      background-color: #aaa;
+    }
+  }
+
+  &:hover .title .btn-group { display: block; }
 
   .title {
     cursor: pointer;
-    padding: 20px;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    
+    .checkbox:before {
+      content: '';
+      width: 15px;
+      height: 15px;
+      background-color: $white;
+      display: block;
+      margin-right: 15px;
+      border-radius: 100%;
+    }
+
+    .btn-group {
+      margin-left: auto;
+      display: none;
+    }
+
+    button {
+      background: none;
+      outline: none;
+      border: 0;
+      margin-left: 10px;
+      padding: 0;
+    }
   }
 
   .details {
     display: none;
   }
 
-  [type="radio"]:checked ~ .title {
-    background-color: #b1d;
-  }
 }
 
 .launch-btn {
@@ -34,7 +72,7 @@
   position: fixed;
   bottom: 0;
   width: 100%;
-  padding: 20px;
+  padding: 15px;
   cursor: pointer;
 
   &[disabled] {
