@@ -1,0 +1,147 @@
+@function calcBleed( $width: 0, $breakpoint: 1px ) {
+  @if ( $width != 0 ) {
+    $width: " + " + $width;
+    } @else {
+      $width: "";
+    }
+  @if ( $breakpoint >= $row_maxed ) {
+    @return unquote("calc(((100vw - " + $row_max_width + ") / 2)" + $width + ")");
+  }
+  @return unquote("calc(((100% - " + $row_width + ") / 2)" + $width + ")");
+}
+
+// used to convert any color value into rgba.
+@function color($r, $g: null, $b: null, $a: null) {
+  $colors: false !default;
+  $_colors: (
+    'primary': #ff0091,
+    'secondary': #FF5400,
+    'tertiary': #282828
+  );
+
+  @if ( $colors ) { $_colors: $colors; }
+
+  @if $g == null {
+    @if map-has-key($colors, $r) {
+      $r: map-get($colors, $r);
+    }
+    $a: 1;
+    $b: blue($r);
+    $g: green($r);
+    $r: red($r);
+  } @else if $b == null {
+    @if map-has-key($colors, $r) {
+      $r: map-get($colors, $r);
+    }
+    $a: $g;
+    $b: blue($r);
+    $g: green($r);
+    $r: red($r);
+  } @else if $a == null {
+    $a: 1;
+  }
+
+  @if $a < 0 { $a: 0; }
+  @if $a > 1 { $a: $a / 100; }
+  @if $a > 1 { $a: 1; }
+
+  @return unquote('rgba(#{$r}, #{$g}, #{$b}, #{$a})');
+}
+
+// Used to assigning z-index values sensibly
+@function z($layer, $mod: 0) {
+  $layers_padding: 5 !default;
+  $layers: false !default;
+  $_layers: ('background', 'foreground', 'overlay');
+
+  @if ( $layers ) { $_layers: $layers; }
+
+  @if ( false == index($_layers, $layer) ) {
+    @error "No layer found for `#{$layer}` in $layers list.";
+  }
+
+  $index: index($_layers, $layer) - 1;
+
+  @if ( $mod > $layers_padding ) {
+    $mod: $layers_padding;
+  } @else if ( $mod <= -($layers_padding) ) {
+    $mod: -(($layers_padding - 1));
+  }
+
+  @return ((($index * $layers_padding) + (($index * $layers_padding) + $layers_padding)) + $mod);
+}
+
+// collection of tester methods
+
+@function is-number($value) {
+  @return type-of($value) == 'number';
+}
+
+@function is-time($value) {
+  @return is-number($value) and index('ms' 's', unit($value)) != null;
+}
+
+@function is-duration($value) {
+  @return is-time($value);
+}
+
+@function is-angle($value) {
+  @return is-number($value) and index('deg' 'rad' 'grad' 'turn', unit($value)) != null;
+}
+
+@function is-frequency($value) {
+  @return is-number($value) and index('Hz' 'kHz', unit($value)) != null;
+}
+
+@function is-integer($value) {
+  @return is-number($value) and round($value) == $value;
+}
+
+@function is-relative-length($value) {
+  @return is-number($value) and index('em' 'ex' 'ch' 'rem' 'vw' 'vh' 'vmin' 'vmax', unit($value)) != null;
+}
+
+@function is-absolute-length($value) {
+  @return is-number($value) and index('cm' 'mm' 'in' 'px' 'pt' 'pc', unit($value)) != null;
+}
+
+@function is-percentage($value) {
+  @return is-number($value) and unit($value) == '%';
+}
+
+@function is-length($value) {
+  @return is-relative-length($value) or is-absolute-length($value);
+}
+
+@function is-resolution($value) {
+  @return is-number($value) and index('dpi' 'dpcm' 'dppx', unit($value)) != null;
+}
+
+@function is-position($value) {
+  @return is-length($value) or is-percentage($value) or index('top' 'right' 'bottom' 'left' 'center', $value) != null;
+}
+
+/// Remove the unit of a length
+/// @param {Number} $number - Number to remove unit from
+/// @return {Number} - Unitless number
+@function strip-unit($number) {
+  @if type-of($number) == 'number' and not unitless($number) {
+    @return $number / ($number * 0 + 1);
+  }
+  @return $number;
+}
+
+@function if ($condition, $true, $false: null) {
+  @if ( $condition ) {
+    @return $true;
+  }
+  @return $false;
+}
+
+/*
+ * Mixins ---
+ * -------------------------- */
+
+@mixin z-index ($z, $mod: 0) {
+  z-index: z($z, $mod);
+}

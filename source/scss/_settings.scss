@@ -1,0 +1,58 @@
+/// Sizes
+
+$dimensionsMin: 320;
+$dimensionsMax: 930;
+$gutter: 30;
+
+/// Colors
+
+$blue-dark: #094F81;
+$blue-light: #03BDCC;
+
+$white: #FFFFFF;
+$black: #000000;
+$teal: #60C6AD;
+$blue: #12C0C3;
+$green: #66BE6A;
+$grey: #ECECEC;
+$light-black: #4A4A4A;
+
+$primary-accent-color: $teal !default;
+$secondary-accent-color: $green !default;
+
+$swatches: (
+  'white': ($white, $black),
+  'black': ($black, $white),
+  'grey': ($grey, $black)
+) !default;
+
+@each $key, $swatch in $swatches {
+  $background: nth($swatch, 1);
+  $foreground: nth($swatch, 2);
+
+  .bg-#{$key} {
+    background-color: $background;
+    color: $foreground;
+  }
+}
+
+/// Fonts
+
+// $sans: "termina", sans-serif;
+// $serif: "bemio", serif;
+
+/// Z-Index Layers
+
+$layers: (
+  'underlay',
+  'background',
+  'foreground',
+  'nav',
+  'nav-mobile',
+  'overlay'
+);
+
+/// Custom variables.
+
+$banner-width: 100px;
+$banner-height: 100px;

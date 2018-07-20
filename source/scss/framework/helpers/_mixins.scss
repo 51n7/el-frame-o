@@ -1,0 +1,149 @@
+/* ###################################
+ A FEW HELPERS
+####################################*/
+
+@mixin break ($size) {
+  @media screen and (min-width: $size) {
+    @content;
+  }
+}
+
+@mixin before ($size) {
+  @media screen and (max-width: $size - 1px) {
+    @content;
+  }
+}
+
+@mixin hbreak ($size) {
+  @media screen and (min-height: $size) {
+    @content;
+  }
+}
+
+@mixin hbefore ($size) {
+  @media screen and (max-height: $size - 1px) {
+    @content;
+  }
+}
+
+// Inits all important breakpoints.
+@mixin initDimensions( $min: 320, $container-max: 1280, $column-gap: 20 ) {
+  $gutter: $column-gap * 1px !global;
+  $smallest: $min * 1px !global;
+  $largest: $container-max * 1px !global;
+
+  $row_max_width: $container-max !global;
+  $row_min_width: ($min - $column-gap) !global;
+  $row_width: ($row_min_width / $min) !global;
+
+  $row_ratio: $row_width * 100 !global;
+
+  $i: $container-max;
+  $row_maxed: 0 !global;
+
+  @while ( $row_maxed < $container-max ) {
+    $row_maxed: $i * $row_width !global;
+    $i: $i + 1;
+  }
+
+  $row_maxed: $i - 1 !global;
+
+  // Add Units to these variables.
+  $row_max_width: $row_max_width * 1px !global;
+  $row_min_width: $row_min_width * 1px !global;
+  $row_width: $row_width * 100% !global;
+  $row_maxed: $row_maxed * 1px !global;
+}
+
+/// Scales a value from $a to $b using `vw` with an optional starting breakpoint paramater
+/// @param {Number} $prop - the property to scale
+/// @param {Number} $a - initial value
+/// @param {Number} $b - the value to scale to
+/// @param {Number} $breakpoint - where to start the scaling. default is the value of $smallest;
+@mixin scale( $prop, $a, $b, $breakpoint: null ) {
+
+  @if ( $breakpoint == null ) {
+    $breakpoint: $smallest;
+  }
+
+  $breakpoint: strip-unit($breakpoint);
+  $ratio: strip-unit($a / $breakpoint);
+
+  #{$prop}: $a;
+
+  @include break($breakpoint+"px") {
+    #{$prop}: #{$ratio * 100}vw;
+  }
+
+  @include break(#{ceil(strip-unit($b) / $ratio)+"px"}) {
+    #{$prop}: $b;
+  }
+}
+
+// Clear fix for containers
+@mixin clear {
+  &::before,
+  &::after {
+    content: ' ';
+    display: table;
+  }
+  &::after { clear: both; }
+}
+
+@mixin placeholder {
+  &::-webkit-input-placeholder { @content }
+  &:-moz-placeholder           { @content }
+  &::-moz-placeholder          { @content }
+  &:-ms-input-placeholder      { @content }
+}
+
+// Background SVGs
+$svg-path: (
+  'divider': ("0 0 754 8", "M-0.047,4C62.82,2.675 125.686,1.939 188.477,1.498L212.033,1.277L235.589,1.13L282.7,0.909L377,0.762L471.3,0.909L518.411,1.13L541.967,1.277L565.523,1.498C628.39,1.939 691.256,2.675 754.047,4C691.18,5.325 628.314,6.061 565.523,6.502L541.967,6.723L518.411,6.87L471.3,7.091L377,7.238L282.7,7.091L235.589,6.87L212.033,6.723L188.477,6.502C125.686,6.061 62.82,5.325 -0.047,4Z"),
+  'icon-chevron': ("0 0 29 21", "M28.841,3.201L14.421,20.506L0,3.201L3.841,0L14.421,12.695L25,0C26.28,1.067 27.561,2.134 28.841,3.201Z"),
+  'icon-arrow': ("0 0 18 27", "M18,0L8.736,27L0,0L18,0Z"),
+  'icon-check': ("0 0 40 41", "M39.47,2.876L13.204,40.224L0,21.448L4.09,18.572L13.204,31.532L35.38,0C36.743,0.959 38.107,1.918 39.47,2.876Z"),
+  'icon-check-2': ("0 0 30 34", "M9.795,33.759C6.49,28.388 3.246,23.112 0,17.839C0.025,17.815 0.049,17.792 0.074,17.767C3.193,19.991 6.312,22.213 9.467,24.459C16.1,16.3 22.726,8.151 29.353,0C29.386,0.023 29.419,0.044 29.452,0.067C22.917,11.267 16.382,22.47 9.795,33.759"),
+  'icon-close': ("0 0 27 27", "M13.036,9.5L22.525,0.01C23.704,1.189 24.882,2.367 26.061,3.546L16.571,13.036L26.071,22.536L22.536,26.071L13.036,16.571L3.546,26.061L0.01,22.525L9.5,13.036L0,3.536L3.536,0L13.036,9.5Z")
+) !default;
+
+@mixin svg($icon, $color) {
+  $view: nth(map-get($svg-path, $icon), 1 );
+  $path: nth(map-get($svg-path, $icon), 2 );
+  background-image: svg-uri('<svg fill="#{$color}" width="100%" height="100%" viewBox="#{$view}" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;"><path d="#{$path}" /></svg>');
+}
+
+// ENCODE SVG'S FOR IE/EDGE
+@function svg-uri($svg) {
+    $encoded: '';
+    $slice: 2000;
+    $index: 0;
+    $loops: ceil(str-length($svg) / $slice);
+
+    @for $i from 1 through $loops {
+        $chunk: str-slice($svg, $index, $index + $slice - 1);
+        $chunk: str-replace($chunk, '"', "%22");
+        $chunk: str-replace($chunk, '\'', "%27");
+        $chunk: str-replace($chunk, '<', '%3C');
+        $chunk: str-replace($chunk, '>', '%3E');
+        $chunk: str-replace($chunk, '&', '%26');
+        $chunk: str-replace($chunk, '#', '%23');
+        $chunk: str-replace($chunk, ' ', '%20');
+        $chunk: str-replace($chunk, '=', '%3D');
+        $chunk: str-replace($chunk, '100%', '100%25');
+        $encoded: #{$encoded}#{$chunk};
+        $index: $index + $slice;
+    }
+
+    @return url('data:image/svg+xml;charset=utf-8,#{$encoded}');
+}
+
+@function str-replace($string, $search, $replace: '') {
+    $index: str-index($string, $search);
+
+    @if $index {
+        @return str-slice($string, 1, $index - 1) + $replace + str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
+    }
+
+    @return $string;
+}

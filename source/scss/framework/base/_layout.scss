@@ -1,0 +1,12 @@
+/*
+ * Page Layout
+ * =========== */
+
+.container {
+  display: block;
+  max-width: $row_max_width;
+  min-width: $row_min_width;
+  width: $row_width;
+  margin: 0 auto;
+  // @include clear;
+}

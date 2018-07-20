@@ -1,0 +1,187 @@
+/*
+ * Base Styles
+ * ============= */
+
+* { box-sizing: border-box; }
+
+html,
+html a {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.004);
+}
+
+html { height: 100%; }
+
+body {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  align-content: stretch;
+  justify-content: flex-start;
+  min-height: 100%;
+  min-width: $smallest;
+  color: $black;
+  background-position: center;
+  background-color: $white;
+  font-family: $sans;
+  font-size: 16px;
+  line-height: 1.875;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  margin: 0 auto;
+}
+
+figure {
+  img {
+    max-width: 100%;
+    max-height: 100%;
+  }
+}
+
+section {
+  display: inline-block;
+  width: 100%;
+  height: auto;
+  padding: 0;
+}
+
+/*! HTML5 Boilerplate v5.3.0 | MIT License | https://html5boilerplate.com/ */
+
+/*
+ * What follows is the result of much research on cross-browser styling.
+ * Credit left inline and big thanks to Nicolas Gallagher, Jonathan Neal,
+ * Kroc Camen, and the H5BP dev community and team.
+ */
+
+/* ==========================================================================
+   Base styles: opinionated defaults
+   ========================================================================== */
+
+// html {
+//   color: #222;
+//   font-size: 1em;
+//   line-height: 1.4;
+// }
+
+/*
+ * Remove text-shadow in selection highlight:
+ * https://twitter.com/miketaylr/status/12228805301
+ *
+ * These selection rule sets have to be separate.
+ * Customize the background color to match your design.
+ */
+
+::-moz-selection {
+  background: $primary-accent-color; //color('text-color');
+  color: white;
+  text-shadow: none;
+}
+
+::selection {
+  background: $primary-accent-color;
+  color: white;
+  text-shadow: none;
+}
+
+/*
+ * Remove the gap between audio, canvas, iframes,
+ * images, videos and the bottom of their containers:
+ * https://github.com/h5bp/html5-boilerplate/issues/440
+ */
+
+audio,
+canvas,
+iframe,
+img,
+svg,
+video {
+  vertical-align: middle;
+}
+
+/*
+ * Fix default figure styles
+ */
+
+figure {
+  margin: 0;
+}
+
+/*
+ * Remove default fieldset styles.
+ */
+
+fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+
+/*
+ * Allow only vertical resizing of textareas.
+ */
+
+textarea {
+  resize: vertical;
+}
+
+/*
+ * Reset link color to inherit so it is pulled from the parent styles.
+ */
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+a:hover { text-decoration: none; }
+
+/*
+ * Reset link color to inherit so it is pulled from the parent styles.
+ */
+
+li,
+dt,
+dd,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.inline {
+  font-size: 1em;
+  font-style: normal;
+  font-weight: normal;
+  line-height: inherit;
+  margin: 0 0 1rem;
+  padding: 0;
+  list-style: none;
+  vertical-align: baseline;
+  color: inherit;
+  background-color: transparent;
+  text-decoration: none;
+  &:last-child { margin-bottom: 0; }
+}
+
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  vertical-align: baseline;
+  background-color: transparent;
+}
+
+/* ==========================================================================
+   Browser Upgrade Prompt
+   ========================================================================== */
+
+.browserupgrade {
+  margin: 0.2em 0;
+  background: #ccc;
+  color: #000;
+  padding: 0.2em 0;
+}

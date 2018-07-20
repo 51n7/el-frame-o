@@ -9,15 +9,21 @@
   <body>
     <div class="titlebar"></div>
     
-    <form>
+    <form style="display: none;">
       <input type="text" value="https://app.getflow.com/">
       <input type="submit" value="submit">
     </form>
+
+    <div class="list"></div>
+
+    <button class="launch-btn" disabled>Launch</button>
     
     <script>
       if (window.isElectron) {
         
+        var data = window.store.get('pages');
         var form = document.querySelector('form');
+        var launchBtn = document.querySelector('.launch-btn');
 
         form.addEventListener("submit", function(e){
           e.preventDefault();
@@ -25,6 +31,44 @@
           var val = document.querySelector('[type="text"]').value;
           window.ipcRenderer.send('asynchronous-message', val);
         });
+
+        launchBtn.addEventListener("click", function(e){
+          e.preventDefault();
+
+          console.log('click');
+        });
+        
+        // console.log( data );
+
+        for ( var key in data ) {
+          if (data.hasOwnProperty(key)) {
+
+            var item = document.createElement('label');
+            item.classList.add('item');
+            
+            item.innerHTML = `
+            <input type="radio" name="item" />
+            <div class="title">${ data[key].title }</div>
+            <div class="details">
+              <div class="url">${ data[key].url }</div>
+              <div class="css">${ data[key].css }</div>
+            </div>
+            `;
+            
+            document.querySelector('.list').appendChild(item);
+          }
+        }
+
+        var radioboxes = document.querySelectorAll('[type="radio"]');
+
+        for (var i = 0, len = radioboxes.length; i < len; i++) {
+          radioboxes[i].addEventListener('change', function() {
+            console.log('radio changed');
+
+            launchBtn.disabled = false;
+          });
+        }
+        
       }
     </script>
   </body>

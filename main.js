@@ -1,14 +1,16 @@
 const { app, globalShortcut, BrowserWindow, ipcMain } = require('electron')
 const fs = require('fs')
 const path = require('path')
-const Store = require('electron-store');
-const data = new Store();
+// const Store = require('electron-store');
+// const data = new Store();
 
 // data.set('unicorn', 'say what??');
 // console.log(data.get('unicorn'));
 
 // data.set('pages.3', { "title": "Discord", "url": "https://discordapp.com/", "css": "body { color: red; } h1 { background: red; }" });
-console.log( data.get('pages') );
+// console.log( data.get('pages') );
+
+// https://github.com/sindresorhus/electron-store
 
 
 let mainWindow
@@ -20,7 +22,7 @@ function createWindow () {
     // titleBarStyle: 'hidden',
     backgroundColor: '#fff',
     minWidth: 320,
-    width: 820,
+    width: 920,
     height: 600,
     webPreferences: {
       nodeIntegration: false,

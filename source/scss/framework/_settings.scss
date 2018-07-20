@@ -1,0 +1,43 @@
+// SIZES =======
+
+$dimensionsMin: 320 !default;
+$dimensionsMax: 1280 !default;
+$gutter: 20 !default;
+
+@include initDimensions( $dimensionsMin, $dimensionsMax, $gutter );
+
+/** VARIABLES CREATED BY INIT FUNCTION **/
+// $smallest: 320px;
+// $largest: 1270px;
+
+$small: 480px !default;
+$small-medium: 640px !default;
+$medium: 768px !default;
+$large: 960px !default;
+$larger: 1024px !default;
+$huge: 1600px !default;
+
+// FONTS =======
+
+$sans: sans-serif !default;
+$sans-alt: monospace !default;
+$serif: serif !default;
+
+$font-size: 16px !default;
+$font-size-large: 18px !default;
+
+// COLORS =======
+
+$primary-accent-color: #FF585F !default;
+$secondary-accent-color: #00B2A9 !default;
+$white: #E0E6E6 !default;
+$black: #394A58 !default;
+
+/// z-index layers
+
+$layers: (
+  'underlay',
+  'background',
+  'foreground',
+  'overlay'
+) !default;
