@@ -17,25 +17,7 @@
       if (window.isElectron) {
         
         var data = window.store.get('pages');
-        // var form = document.querySelector('form');
-        var launchBtn = document.querySelector('.launch-btn');
-
-        // form.addEventListener("submit", function(e){
-        //   e.preventDefault();
-
-        //   var val = document.querySelector('[type="text"]').value;
-        //   window.ipcRenderer.send('asynchronous-message', val);
-        // });
-
-        launchBtn.addEventListener("click", function(e){
-          e.preventDefault();
-
-          // var url = document.querySelector('[type="radio"]:checked ~ .details [type="text"]').value;
-
-          // console.log( url );
-          // window.ipcRenderer.send('asynchronous-message', url);
-          console.log('click');
-        });
+        
         
         // console.log( data );
 
@@ -51,7 +33,7 @@
                 <div class="checkbox"></div>
                 <span>${ data[key].title }</span>
                 <div class="btn-group">
-                  <button><i class="far fa-edit"></i></button>
+                  <button class="edit-btn"><i class="far fa-edit"></i></button>
                 </div>
               </div>
               <div class="details">
@@ -65,7 +47,10 @@
         }
 
         var radioboxes = document.querySelectorAll('[type="radio"]');
+        var editBtn = document.querySelectorAll('.edit-btn');
+        var launchBtn = document.querySelector('.launch-btn');
 
+        // radio buttons
         for (var i = 0, len = radioboxes.length; i < len; i++) {
           radioboxes[i].addEventListener('change', function() {
             console.log('radio changed');
@@ -73,6 +58,46 @@
             launchBtn.disabled = false;
           });
         }
+
+        // edit buttons
+        for (var i = 0, len = editBtn.length; i < len; i++) {
+          editBtn[i].addEventListener('click', function(event) {
+
+            // remove open class from all .details
+            var details = document.querySelectorAll('.details');
+            for (var i = 0; i < details.length; i++) {
+              details[i].classList.remove('open');
+            }
+
+            // add open class to active details
+            var item = getClosest(event.target, '.item');
+            var details = item.querySelector('.details');
+            details.classList.add('open');
+            // console.log(details);
+            
+            if ( details.classList.contains('open') ) {
+              // details.classList.remove('open');
+            } else {
+              // details.classList.add('open');
+            }
+
+          });
+        }
+
+        // launch button
+        launchBtn.addEventListener("click", function(e){
+          e.preventDefault();
+
+          var url = document.querySelector('[type="radio"]:checked ~ .details [type="text"]').value;
+          window.ipcRenderer.send('asynchronous-message', url);
+        });
+
+        var getClosest = function (elem, selector) {
+          for ( ; elem && elem !== document; elem = elem.parentNode ) {
+            if ( elem.matches( selector ) ) return elem;
+          }
+          return null;
+        };
         
       }
     </script>
