@@ -81,6 +81,25 @@
               // details.classList.add('open');
             }
 
+            // FAQ ACCORDION
+            /*$('.faq > .question').click(function(e) {
+              e.preventDefault();
+
+              var $faq = $(this).parent();
+              var $answer = $(this).next();
+
+              $('.answer').css('max-height', '0');
+
+              if ($faq.hasClass('active')) {
+                $faq.removeClass('active');
+              } else {
+                $('.faq').removeClass('active');
+                $faq.addClass('active');
+                $answer.css('max-height', $answer[0].scrollHeight);
+              }
+
+            });*/
+
           });
         }
 
