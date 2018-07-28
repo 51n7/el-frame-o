@@ -62,43 +62,26 @@
         // edit buttons
         for (var i = 0, len = editBtn.length; i < len; i++) {
           editBtn[i].addEventListener('click', function(event) {
-
-            // remove open class from all .details
-            var details = document.querySelectorAll('.details');
-            for (var i = 0; i < details.length; i++) {
-              details[i].classList.remove('open');
-            }
-
-            // add open class to active details
-            var item = getClosest(event.target, '.item');
-            var details = item.querySelector('.details');
-            details.classList.add('open');
-            // console.log(details);
             
-            if ( details.classList.contains('open') ) {
-              // details.classList.remove('open');
+            // toggle details
+            var item = getClosest(event.target, '.item');
+            var $details = item.querySelector('.details');
+
+            $details.style.maxHeight = "0";
+            
+            if ( $details.classList.contains('open') ) {
+              $details.classList.remove('open');
             } else {
-              // details.classList.add('open');
-            }
 
-            // FAQ ACCORDION
-            /*$('.faq > .question').click(function(e) {
-              e.preventDefault();
-
-              var $faq = $(this).parent();
-              var $answer = $(this).next();
-
-              $('.answer').css('max-height', '0');
-
-              if ($faq.hasClass('active')) {
-                $faq.removeClass('active');
-              } else {
-                $('.faq').removeClass('active');
-                $faq.addClass('active');
-                $answer.css('max-height', $answer[0].scrollHeight);
+              var allDetails = document.querySelectorAll('.details');
+              for (var i = 0; i < allDetails.length; i++) {
+                allDetails[i].style.maxHeight = "0";
+                allDetails[i].classList.remove('open');
               }
 
-            });*/
+              $details.classList.add('open');
+              $details.style.maxHeight = $details.scrollHeight+'px';
+            }
 
           });
         }

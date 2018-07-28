@@ -59,8 +59,15 @@ body {
   }
 
   .details {
-    padding: 0 20px 15px;
-    display: none;
+    // padding: 0 20px 15px;
+    // display: none;
+
+    visibility: visible;
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 250ms;
+    padding-left: 20px;
+    padding-right: 20px;
 
     &.open { display: block; }
 
@@ -71,6 +78,7 @@ body {
       outline: 0;
       width: 100%;
       padding: 5px 10px;
+      margin-bottom: 20px;
     }
 
     [type="text"] {
